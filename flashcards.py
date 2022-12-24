@@ -43,9 +43,60 @@ Each Deck object will have the following methods:
     - delete_set (deletes specified set(s) out of total_collection)
     
 
-The current plan is to build these 
+The intermediate plan is to make the idea work and look into the application
+transfer process at a later time.
 
 The ultimate plan is to replace paper flashcards in an application that can be
 accessed by mobile devices, with the goal of replacing endless scrolling with
 a session of flashcarding.
 """
+
+class Flashcard:
+    def __init__(self, question, answer, subset, number):
+        self.question = question
+        self.answer = answer
+        self.subset = subset
+        self.number = number
+        self.status = 'fail'
+        
+    """
+    - ask_question
+    - flip_card
+    - alter_status
+    - alter_question
+    - alter_answer
+    - alter_subset
+    - alter_number
+    
+    Is it redundant to have any of the functions besides flip_card?
+    """
+    def ask_question(self):
+        print(self.question)
+    
+    def flip_card(self):
+        print(self.answer)
+        designation = 'dummy'
+        while designation.lower()[0] not in ['p', 'f', 'm']:
+            designation = input('Designate card as (p)ass, (f)ail, or (m)aybe')
+        
+        if designation.lower() == 'p':
+            self.status = 'pass'
+        elif designation.lower() == 'f':
+            self.status = 'fail'
+        else:
+            self.status = 'maybe'
+    
+    def alter_status(self, new_status):
+        self.status = new_status
+        
+    def alter_question(self, new_question):
+        self.status = new_status 
+        
+    def alter_answer(self, new_answer):
+        self.status = new_answer 
+        
+    def alter_set(self, new_subset):
+        self.status = new_subset 
+        
+    def alter_number(self, new_number):
+        self.status = new_number
