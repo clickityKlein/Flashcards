@@ -43,9 +43,8 @@ Each Deck object will have the following methods:
     - delete_set (deletes specified set(s) out of total_collection)
     
 
+The current plan is to build these 
 
-
-    
 The ultimate plan is to replace paper flashcards in an application that can be
 accessed by mobile devices, with the goal of replacing endless scrolling with
 a session of flashcarding.
