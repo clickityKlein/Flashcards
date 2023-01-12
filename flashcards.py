@@ -49,7 +49,9 @@ a session of flashcarding.
 import numpy as np
 import pandas as pd
 import random
-import matplotlib.pyplot as plt
+import sympy as sp
+from sympy import symbols
+from sympy import init_printing
 
 class Flashcard:
     def __init__(self, question, answer, subset, number):
@@ -236,40 +238,3 @@ class Deck:
             df.to_csv(f'{name}.csv', index = False)
         else:
             df.to_csv(f'{path}/{name}.csv', index = False)
-
-    
-    
-    
-            
-
-card1 = Flashcard('question1', 'answer1', 'a', 1)
-card2 = Flashcard('question2', 'answer2', 'a', 2)
-card3 = Flashcard('question3', 'answer3', 'a', 3)
-card4 = Flashcard('question4', 'answer4', 'b', 1)
-card5 = Flashcard('question5', 'answer5', 'b', 2)
-    
-deck_a = Deck('deck_a')
-deck_b = Deck('deck_b')
-deck_c = Deck('deck_c')
-
-set_a = [card1, card2, card3]
-set_b = [card4, card5]
-
-[deck_a.add_to_deck(card) for card in set_a]
-[deck_b.add_to_deck(card) for card in set_b]
-
-deck_c.add_to_deck(deck_a)
-deck_c.add_to_deck(deck_b)
-
-dc = deck_c.deck_to_df()
-deck_c.shuffle_collection()
-deck_c.reorder_collection()
-dc = deck_c.deck_to_df()
-
-
-
-
-
-
-
-
