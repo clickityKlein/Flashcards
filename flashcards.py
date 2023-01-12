@@ -156,7 +156,7 @@ class Deck:
             quiz_set = self.total_collection
         else:
             quiz_score = 'dummy'
-            while designation.lower()[0] not in ['p', 'f', 'm']:
+            while quiz_score.lower()[0] not in ['p', 'f', 'm']:
                 quiz_score = input('Choose from the following scores: (p)ass, (f)ail, or (m)aybe')
             
             if quiz_score.lower() == 'p':
@@ -183,9 +183,7 @@ class Deck:
                 
     def shuffle_collection(self):
         random.shuffle(self.total_collection)
-        
-
-        
+                
     def delete_set(self, subset):
         self.get_sets()
         while subset in self.sets:
@@ -219,12 +217,26 @@ class Deck:
         self.fail_collection = []
         self.set_collection = []
         
-    def import_csv(self, location):
-        pass
+    def import_csv(self, name, path = '', reset_deck = False):
+        if reset_deck != False:
+            self.reset_deck()
+            
+        if path == '':
+            df = pd.read_csv(f'{name}.csv')
+        else:
+            df = pd.read_csv(f'{path}/{name}.csv')
+            
+        for row in df.index:
+            card = Flashcard(df.iloc[row].question, df.iloc[row].answer, df.iloc[row].subset, df.iloc[row].number)
+            self.add_to_deck(card)
     
-    def export_csv(self, location):
-        
-    
+    def export_csv(self, name, path = ''):
+        df = self.deck_to_df()
+        if path == '':
+            df.to_csv(f'{name}.csv', index = False)
+        else:
+            df.to_csv(f'{path}/{name}.csv', index = False)
+
     
     
     
@@ -253,7 +265,6 @@ dc = deck_c.deck_to_df()
 deck_c.shuffle_collection()
 deck_c.reorder_collection()
 dc = deck_c.deck_to_df()
-
 
 
 
