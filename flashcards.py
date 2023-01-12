@@ -14,10 +14,6 @@ Each Flashcard object will have the following attributes:
 Each Flashcard object will have the following methods:
     - flip_card
     - alter_status
-    - alter_question
-    - alter_answer
-    - alter_set
-    - alter_number
     
 
 Object: Deck
@@ -50,6 +46,10 @@ The ultimate plan is to replace paper flashcards in an application that can be
 accessed by mobile devices, with the goal of replacing endless scrolling with
 a session of flashcarding.
 """
+import numpy as np
+import pandas as pd
+import random
+import matplotlib.pyplot as plt
 
 class Flashcard:
     def __init__(self, question, answer, subset, number):
@@ -60,43 +60,205 @@ class Flashcard:
         self.status = 'fail'
         
     """
-    - ask_question
-    - flip_card
-    - alter_status
-    - alter_question
-    - alter_answer
-    - alter_subset
-    - alter_number
-    
-    Is it redundant to have any of the functions besides flip_card?
+    Methods:
+        - flip_card
     """
-    def ask_question(self):
-        print(self.question)
     
+    """
+    flip_card: this method will show the answer of a flashcard, and will ask the user
+    to assign the card either a 'pass', 'fail', or 'maybe' score.
+    """
     def flip_card(self):
-        print(self.answer)
+        print(f'Answer: {self.answer}')
         designation = 'dummy'
         while designation.lower()[0] not in ['p', 'f', 'm']:
-            designation = input('Designate card as (p)ass, (f)ail, or (m)aybe')
-        
+            designation = input('Designate card as (p)ass, (f)ail, or (m)aybe: ')
+            print('')
+            
         if designation.lower() == 'p':
             self.status = 'pass'
         elif designation.lower() == 'f':
             self.status = 'fail'
         else:
             self.status = 'maybe'
+
+class Deck:
+    def __init__(self, collection_name):
+        self.collection_name = collection_name
+        self.total_collection = []
+        self.sets = []
+        self.pass_collection = []
+        self.maybe_collection = []
+        self.fail_collection = []
+        self.set_collection = []
+        
+    """
+    - add_to_deck (adds Card or other Deck to this Deck)
+    - deck_to_df (converts the Deck into a DataFrame)
+    - total_cards (number of total cards)
+    - get_sets (returns a list of all unique sets in the deck)
+    - total_sets (number of total sets)
+    - name_sets (display what sets are in collection, and number of cards)
+    - score_collection (assign cards to proper scoring collection)
+    - quiz (flips through specified set or collection)
+    - shuffle_collection (shuffles a given collection)
+    - reorder_collection (orders the cards by set and then increasing numerical order)
+    - reset_collection (resets numbering on specified collection)
+    - delete_card (deletes a single specified card out of total_collection)
+    - delete_set (deletes specified set(s) out of total_collection)
+    """
     
-    def alter_status(self, new_status):
-        self.status = new_status
+    def add_to_deck(self, addition):
+        if type(addition) == Flashcard:
+            self.total_collection.append(addition)
+        elif type(addition) == Deck:
+            [self.total_collection.append(card) for card in addition.total_collection]
+        else:
+            print('Cannot complete the addition, please use a Card or Deck type object.')
+            
+    def deck_to_df(self):
+        df = pd.DataFrame(columns = vars(self.total_collection[0]).keys())
+        for number, card in enumerate(self.total_collection):
+            df.loc[number] = vars(card).values()
+            
+        return df
         
-    def alter_question(self, new_question):
-        self.status = new_status 
+    def total_cards(self):
+        return len(self.total_collection)
+    
+    def get_sets(self):
+        df = self.deck_to_df()
+        self.sets = list(df.subset.value_counts().index)
+    
+    def total_sets(self):
+        self.get_sets()
+        return len(self.sets)    
+    
+    def name_sets(self):
+        df = self.deck_to_df()
+        return df.subset.value_counts()
+    
+    def score_collection(self):
+        for card in self.total_collection:
+            if card.status == 'pass':
+                self.pass_collection.append(card)
+            elif card.status == 'maybe':
+                self.maybe_collection.append(card)
+            else:
+                self.fail_collection.append(card)
+    
+    def quiz(self, score_specific = False):
+        self.score_collection()
+        quiz_set = []
         
-    def alter_answer(self, new_answer):
-        self.status = new_answer 
+        # choose which collection to be quizzed on
+        if score_specific == False:
+            quiz_set = self.total_collection
+        else:
+            quiz_score = 'dummy'
+            while designation.lower()[0] not in ['p', 'f', 'm']:
+                quiz_score = input('Choose from the following scores: (p)ass, (f)ail, or (m)aybe')
+            
+            if quiz_score.lower() == 'p':
+                quiz_set = self.pass_collection
+            elif quiz_score.lower() == 'f':
+                quiz_set = self.fail_collection
+            else:
+                quiz_set = self.maybe_collection
+                
+        # get quizzed
+        for card in quiz_set:
+            print(f'Question: {card.question}')
+            flip_or_quit = input('(f)lip or (q)uit?: ')
+            print('')
+            if flip_or_quit.lower()[0] == 'f':
+                card.flip_card()
+            else:
+                break
+            
+        self.score_collection()
         
-    def alter_set(self, new_subset):
-        self.status = new_subset 
+    def single_set(self, collection):
+        self.set_collection = [card for card in self.total_collection if card.subset in collection]
+                
+    def shuffle_collection(self):
+        random.shuffle(self.total_collection)
         
-    def alter_number(self, new_number):
-        self.status = new_number
+
+        
+    def delete_set(self, subset):
+        self.get_sets()
+        while subset in self.sets:
+            for card in self.total_collection:
+                if subset == card.subset:
+                    self.total_collection.remove(card)
+            self.get_sets()
+    
+    def reorder_collection(self):
+        self.get_sets()
+        for collection in self.sets:
+            self.single_set([collection])
+            self.delete_set(collection)
+            sorted_set = []
+            for card in self.set_collection:
+                sorted_set.insert(card.number - 1, card)
+            for card in sorted_set:
+                self.add_to_deck(card)
+                
+    def delete_card(self, subset, number):
+        for card in self.total_collection:
+            if card.subset == subset and card.number == number:
+                self.total_collection.remove(card)
+        self.reorder_collection()
+    
+    def reset_deck(self):
+        self.total_collection = []
+        self.sets = []
+        self.pass_collection = []
+        self.maybe_collection = []
+        self.fail_collection = []
+        self.set_collection = []
+        
+    def import_csv(self, location):
+        pass
+    
+    def export_csv(self, location):
+        
+    
+    
+    
+    
+            
+
+card1 = Flashcard('question1', 'answer1', 'a', 1)
+card2 = Flashcard('question2', 'answer2', 'a', 2)
+card3 = Flashcard('question3', 'answer3', 'a', 3)
+card4 = Flashcard('question4', 'answer4', 'b', 1)
+card5 = Flashcard('question5', 'answer5', 'b', 2)
+    
+deck_a = Deck('deck_a')
+deck_b = Deck('deck_b')
+deck_c = Deck('deck_c')
+
+set_a = [card1, card2, card3]
+set_b = [card4, card5]
+
+[deck_a.add_to_deck(card) for card in set_a]
+[deck_b.add_to_deck(card) for card in set_b]
+
+deck_c.add_to_deck(deck_a)
+deck_c.add_to_deck(deck_b)
+
+dc = deck_c.deck_to_df()
+deck_c.shuffle_collection()
+deck_c.reorder_collection()
+dc = deck_c.deck_to_df()
+
+
+
+
+
+
+
+
+
