@@ -8,7 +8,9 @@ such as deck combination and shuffling.
 - [Libraries Used](#libraries-used)
 - [Project Motivation](#project-motivation)
 - [File Descriptions](#file-descriptions)
+- [Card Class Attributes](#card-class-attributes)
 - [Card Class Functions](#card-class-functions)
+- [Deck Class Attributes](#deck-class-attributes)
 - [Deck Class Functions](#deck-class-functions)
 - [Future Applications](#future-applications)
 
@@ -29,24 +31,32 @@ phases:
 
 1. Create a class based program that works in an IDE
 2. Create csv libraries for the desired flashcards
-3. Create an application outside an IDE
+3. Create an application outside an IDE, with a mobile aim in mind
 
 It was imperative to include the SymPy library, as this will personally be used heavily for
 mathematical concepts. On another personal note, further motivation for developing this
 into some sort of application was to swap mindless scrolling with learning during downtime.
 
+[Table of Contents](#table-of-contents)
+
+
+## File Descriptions
+- flashcards.py: the python script containing the entire flashcards module
 
 [Table of Contents](#table-of-contents)
 
-## File Descriptions
 
+## Card Class Attributes
+'''python
+card = Flashcard(question, answer, subset, number)
+'''
 
 [Table of Contents](#table-of-contents)
 
 ## Card Class Functions
 
-
 [Table of Contents](#table-of-contents)
+
 
 ## Deck Class Functions
 
