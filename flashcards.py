@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This is a flashcard based object program.
+This is an object based flashcard program.
 
 Object: Flashcard
 Each Flashcard object will have the following attributes:
