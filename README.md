@@ -12,7 +12,7 @@ such as deck combination and shuffling.
 - [Card Class Functions](#card-class-functions)
 - [Deck Class Attributes](#deck-class-attributes)
 - [Deck Class Functions](#deck-class-functions)
-- [Future Applications](#future-applications)
+- [Future Considerations](#future-considerations)
 
 
 ## Libraries Used
@@ -47,20 +47,63 @@ into some sort of application was to swap mindless scrolling with learning durin
 
 
 ## Card Class Attributes
-'''python
 card = Flashcard(question, answer, subset, number)
-'''
+
+- question
+- answer
+- subset: to designate subject matter, subset of subject matter
+- number: used for place in set, randomization, arbitrary unless order matters
+- status: pass, maybe, fail
+
+Note that status is always initially set to "fail".
 
 [Table of Contents](#table-of-contents)
 
+
 ## Card Class Functions
+- flip_card(): reveals answer, asks user to input score (i.e. change status)
+
+[Table of Contents](#table-of-contents)
+
+
+## Deck Class Attributes
+deck = Deck(collection_name)
+
+- collection_name: name of deck
+- total_collection: list of all cards in deck
+- sets: list of all sets in deck (subset attribute in Card class)
+- pass_collection: list of all cards with "pass" status
+- maybe_collection: list of all cards with "maybe" status
+- fail_collection: list of all cards with "fail" status
+- set_collection: list of cards within a specified set (subset attribute in Card class)
 
 [Table of Contents](#table-of-contents)
 
 
 ## Deck Class Functions
-
+- add_to_deck: adds card or other deck to this deck
+- deck_to_df: converts the deck into a DataFrame
+- total_cards: number of total cards
+- get_sets: returns a list of all unique sets in the deck
+- total_sets: number of total sets in deck
+- name_sets: display what sets are in collection, and number of cards
+- score_collection: assign cards to proper scoring collection
+- quiz: flips through specified set or collection
+- single_set: fills set_collection with a single specified subset
+- shuffle_collection: shuffles a given collection
+- delete_set: deletes specified set(s) out of total_collection
+- reorder_collection: orders the cards by set and then increasing numerical order
+- delete_card: deletes a single specified card out of total_collection
+- reset_deck: empties all of the list attributes
+- import_csv: fills a Deck object with Card objects made from csv file rows
+- export_csv: exports a Deck object as a csv file
 
 [Table of Contents](#table-of-contents)
 
-## Future Applications
+
+## Future Considerations
+Following the phases in [Project Motivation](#project-motivation), minor tweaks will
+likely be needed in stage 1 (such as error handling measures), but focus can now be
+shifted to phases 2-3.
+
+[Table of Contents](#table-of-contents)
