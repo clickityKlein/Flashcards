@@ -14,12 +14,26 @@ such as deck combination and shuffling.
 
 
 ## Libraries Used
-
+- NumPy
+- pandas
+- random
+- SymPy
 
 [Table of Contents](#table-of-contents)
 
 
 ## Project Motivation
+The goal of this project was to create an object based virtual flashcards program
+that could replace physical flashcards. Besides general testing, there are three
+phases:
+
+1. Create a class based program that works in an IDE
+2. Create csv libraries for the desired flashcards
+3. Create an application outside an IDE
+
+It was imperative to include the SymPy library, as this will personally be used heavily for
+mathematical concepts. On another personal note, further motivation for developing this
+into some sort of application was to swap mindless scrolling with learning during downtime.
 
 
 [Table of Contents](#table-of-contents)
