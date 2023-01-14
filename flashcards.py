@@ -55,6 +55,7 @@ import random
 import sympy as sp
 from sympy import symbols
 from sympy import init_printing
+x, y, z, t, s, u, v = sp.symbols('x y z t s u v')
 
 class Flashcard:
     def __init__(self, question, answer, subset, number):
