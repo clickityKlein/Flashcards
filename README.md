@@ -23,12 +23,13 @@ such as deck combination and shuffling.
 
 Notes on SymPy:
 1. flashcards.py runs the following from SymPy:
-'''
+
+```python
 import sympy as sp
 from sympy import symbols
 from sympy import init_printing
 x, y, z, t, s, u, v = sp.symbols('x y z t s u v')
-'''
+```
 
 2. flashcards.py has the following variables available for use:
 - x
