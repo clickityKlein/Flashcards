@@ -21,6 +21,24 @@ such as deck combination and shuffling.
 - random
 - SymPy
 
+Notes on SymPy:
+1. flashcards.py runs the following from SymPy:
+'''
+import sympy as sp
+from sympy import symbols
+from sympy import init_printing
+x, y, z, t, s, u, v = sp.symbols('x y z t s u v')
+'''
+
+2. flashcards.py has the following variables available for use:
+- x
+- y
+- z
+- t
+- s
+- u
+- v
+
 [Table of Contents](#table-of-contents)
 
 
@@ -37,11 +55,15 @@ It was imperative to include the SymPy library, as this will personally be used 
 mathematical concepts. On another personal note, further motivation for developing this
 into some sort of application was to swap mindless scrolling with learning during downtime.
 
+See the 'examples.py' file for a walkthrough of the module.
+
 [Table of Contents](#table-of-contents)
 
 
 ## File Descriptions
-- flashcards.py: the python script containing the entire flashcards module
+- flashcards.py: python script containing the entire flashcards module
+- examples.py: python script containing examples of how to use the module
+- example.csv: csv file generated if following along in 'examples.py'
 
 [Table of Contents](#table-of-contents)
 
@@ -61,7 +83,7 @@ Note that status is always initially set to "fail".
 
 
 ## Card Class Functions
-- flip_card(): reveals answer, asks user to input score (i.e. change status)
+- flip_card: reveals answer, asks user to input score (i.e. change status)
 
 [Table of Contents](#table-of-contents)
 
@@ -105,5 +127,11 @@ deck = Deck(collection_name)
 Following the phases in [Project Motivation](#project-motivation), minor tweaks will
 likely be needed in stage 1 (such as error handling measures), but focus can now be
 shifted to phases 2-3.
+
+It could be useful to add function where the user can declare their own variables
+in conjunction with the SymPy module.
+
+Naming the collection while creating a Deck object seems redundant, and may be
+removed in the future.
 
 [Table of Contents](#table-of-contents)
