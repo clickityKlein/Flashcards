@@ -24,6 +24,7 @@ Examples file for flashcards.py module.
 18. csv files
     a. import_csv
     b. export_csv
+19. Working with the SymPy library
 """
 
 from flashcards import *
@@ -337,3 +338,46 @@ deck_d.deck_to_df()
 10  question 1_c  answer 1_c  set_c       1   fail
 11  question 2_c  answer 2_c  set_c       2   fail
 """
+
+
+# 19. Working with the SymPy Library
+"""
+Specifically, flashcards.py runs the following from SymPy:
+    
+import sympy as sp
+from sympy import symbols
+from sympy import init_printing
+
+If a user is working with an IDE, or a future application, which can load SymPy
+visuals then take a look at the following example.
+"""
+
+# Here, we'll create a flashcard which quizes the user on the integral of x
+card = Flashcard(sp.Integral(x), sp.integrate(x), 'integrals', 1)
+
+# Let's see what this would look like via a few different views
+vars(card)
+"""
+{'question': Integral(x, x),
+ 'answer': x**2/2,
+ 'subset': 'integrals',
+ 'number': 1,
+ 'status': 'fail'}
+"""
+
+# Note how the text version shows up as SymPy line commands
+
+# The following commands will show up as the actual math notation format:
+card.question
+card.answer
+
+# How about in a DataFrame?
+deck = Deck('calculus')
+deck.add_to_deck(card)
+deck.deck_to_df()
+"""
+         question  answer     subset  number status
+0  Integral(x, x)  x**2/2  integrals       1   fail
+"""
+
+# For csv purposes, it is actually ideal the math notation doesn't form here
